@@ -1,10 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import MemeCard from "./MemeCard";
 import Shimmer from "./Shimmer";
 
 function Body() {
   const [memes, setMemes] = useState([]);
   const [showShimmer, setShowShimmer] = useState(false);
+  const observer = useRef(null);
+
+  /*
+  A callback ref is a function that receives the DOM element 
+  or component instance as an argument when the component mounts or unmounts.
+  */
+  const lastNodeRef = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((enteries) => {
+      if (enteries[0].isIntersecting) fetchMemes();
+    });
+    if (node) observer.current.observe(node);
+  });
 
   useEffect(() => {
     window.addEventListener("scroll", handleOnScroll);
@@ -15,9 +28,9 @@ function Body() {
   }, []);
 
   const handleOnScroll = () => {
-    if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
-      fetchMemes();
-    }
+    // if (window.scrollY + window.innerHeight >= document.body.scrollHeight) {
+    //   fetchMemes();
+    // }
   };
 
   const fetchMemes = async () => {
@@ -30,9 +43,13 @@ function Body() {
 
   return (
     <div className="flex flex-wrap ">
-      {memes.map((meme, i) => (
-        <MemeCard key={i} meme={meme} />
-      ))}
+      {memes.map((meme, i) =>
+        i == memes.length - 1 ? (
+          <MemeCard ref={lastNodeRef} key={i} meme={meme} />
+        ) : (
+          <MemeCard key={i} meme={meme} />
+        )
+      )}
       {showShimmer ? <Shimmer /> : null}
     </div>
   );
