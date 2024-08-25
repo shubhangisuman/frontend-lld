@@ -1,10 +1,10 @@
 import logo from "./logo.svg";
 import "./App.css";
-import Body from "./Components/Body";
 import SearchBar from "./search-ui/SearchBar";
 import Comments from "./comments-ui/Comments";
 import Comment from "./comments-ui/Comment";
 import CommentList from "./comments-ui/CommentList";
+import Body from "./shimmer-ui/Body";
 import { useState } from "react";
 const comments = [
   {
@@ -41,11 +41,10 @@ function App() {
 
   return (
     <div className="App">
-      <p>App</p>
-      {/* <Body /> */}
+      <Body />
       {/* <SearchBar /> */}
       {/* <Comments /> */}
-      <CommentList data={data} setData={setData} />
+      {/* <CommentList data={data} setData={setData} /> */}
     </div>
   );
 }

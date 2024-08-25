@@ -1,0 +1,14 @@
+Approach 1:
+Using intersection observer.
+Attach a ref to last item of list. 
+Observe this node and when it intersects/become visible. Make a new API call.
+
+Approach 2:
+scrollY: This tells you how far down the page you've scrolled from the top. (height you have covered/scrolled so far)
+innerHeight: This is the height of the visible part of the browser window (viewport).
+document.body.scrollHeight: This is the total height of the entire document, including the part that you may need to scroll to see.
+
+scrollY+innerHeight == document.body.scrollHeight -> Means you have reached end of page
+
+Implementation:
+Check simmer ui folder
